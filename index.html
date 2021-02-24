@@ -36,16 +36,9 @@
 </head>
 
 
-<body onload="cv['onRuntimeInitialized']=()=>{ main() }">
-  <button id="startStopButton" type="button" disabled="true">Start</button>
-  <div id="status"></div>
-  <!-- <canvas id="output" width=640 height=480 style="max-width: 100%"></canvas> -->
+<!-- <body onload="cv['onRuntimeInitialized']=()=>{ main() }"> -->
 
-  <table>
-    <tr id="targetImgs"></tr>
-    <tr id="targetNames"></tr>
-  </table>
-  <button id="addPersonButton" type="button" disabled="true">Add a person</button>
+<body>
 
 
   <header>
@@ -54,7 +47,7 @@
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
             <h4 class="text-white">About</h4>
-            <p class="text-muted">Opencv.js 안면 인식</p>
+            <p class="text-muted">Opencv.js 실시간 AI 안면 인식</p>
           </div>
         </div>
       </div>
@@ -68,7 +61,7 @@
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
             <circle cx="12" cy="13" r="4" />
           </svg>
-          <strong>Opencv.js 안면 인식</strong>
+          <strong>Opencv.js</strong>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
           aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +76,7 @@
     <section class="py-5 text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Opencv.js 안면 인식</h1>
+          <h1 class="fw-light">실시간 AI 안면 인식</h1>
           <p class="lead text-muted" id="status">OpenCV.js is loading...</p>
           <div class="spinner-border text-primary" role="status" id="loader">
             <span class="sr-only"></span>
@@ -104,9 +97,26 @@
               <canvas id="output" width=640 height=480 style="max-width: 100%"></canvas>
               <!-- <canvas id="output"></canvas> -->
               <div class="card-body">
-                <p class="card-text">Gray Scaled</p>
+
+                <button id="startStopButton" type="button" disabled="true"
+                  class="btn btn-sm btn-outline-secondary">시작</button>
+                <!-- <div id="status"></div> -->
+                <!-- <canvas id="output" width=640 height=480 style="max-width: 100%"></canvas> -->
+                <div class='py-2'>
+                  <table>
+                    <tr id="targetImgs"></tr>
+                    <tr id="targetNames"></tr>
+                  </table>
+                </div>
+                <div class='py-2'>
+                  <button id="addPersonButton" type="button" disabled="true" class="btn btn-sm btn-outline-secondary">사람
+                    추가</button>
+                </div>
+
+
+                <!-- <p class="card-text">Gray Scaled</p>
                 <a id="link_gray"><button type="button" class="btn btn-sm btn-outline-secondary"
-                    onClick="saveImage()">다운로드</button></a>
+                    onClick="saveImage()">다운로드</button></a> -->
               </div>
             </div>
           </div>
@@ -123,10 +133,26 @@
 
 
   <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
-  <script async src="js/opencv.js" type="text/javascript"></script>
+  <!-- <script async src="js/opencv.js" type="text/javascript"></script> -->
   <script src="js/utils.js" type="text/javascript"></script>
-  <!-- <script async src="js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script> -->
+  <script async src="js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   <script type='text/javascript'>
+
+    function onOpenCvReady() {
+      cv['onRuntimeInitialized'] = () => {
+        main();
+        document.getElementById('status').innerHTML = '데이터 로딩이 완료되었습니다. 시작버튼을 누르세요';
+        document.getElementById('loader').style.display = "none";
+        // faces = new cv.RectVector();
+        // classifier = new cv.CascadeClassifier();
+        // utils = new Utils('errorMessage');
+        // let faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
+        // utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
+        //     classifier.load(faceCascadeFile); // in the callback, load the cascade from file 
+        // });
+      }
+    }
+
     var netDet = undefined, netRecogn = undefined;
     var persons = {};
 
@@ -285,13 +311,13 @@
       document.getElementById('startStopButton').onclick = function toggle() {
         if (isRunning) {
           isRunning = false;
-          document.getElementById('startStopButton').innerHTML = 'Start';
+          document.getElementById('startStopButton').innerHTML = '시작';
           document.getElementById('addPersonButton').disabled = true;
         } else {
           function run() {
             isRunning = true;
             captureFrame();
-            document.getElementById('startStopButton').innerHTML = 'Stop';
+            document.getElementById('startStopButton').innerHTML = '중지';
             document.getElementById('startStopButton').disabled = false;
             document.getElementById('addPersonButton').disabled = false;
           }
