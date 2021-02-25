@@ -275,7 +275,7 @@
     function onOpenCvReady() {
       cv['onRuntimeInitialized'] = () => {
         main();
-        document.getElementById('status').innerHTML = '데이터 로딩이 완료되었습니다';
+
         document.getElementById('loader').style.display = "none";
       }
     }
