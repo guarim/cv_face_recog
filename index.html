@@ -109,18 +109,8 @@
 
 
   <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <script async src="js/opencv.js" type="text/javascript"></script> -->
-  <script src="js/utils.js" type="text/javascript"></script>
-  <script async src="js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
-  <script type='text/javascript'>
 
-    function onOpenCvReady() {
-      cv['onRuntimeInitialized'] = () => {
-        main();
-        document.getElementById('status').innerHTML = '데이터 로딩이 완료되었습니다';
-        document.getElementById('loader').style.display = "none";
-      }
-    }
+  <script type='text/javascript'>
 
     var netDet = undefined, netRecogn = undefined;
     var persons = {};
@@ -281,7 +271,18 @@
       });
 
     };
+
+    function onOpenCvReady() {
+      cv['onRuntimeInitialized'] = () => {
+        main();
+        document.getElementById('status').innerHTML = '데이터 로딩이 완료되었습니다';
+        document.getElementById('loader').style.display = "none";
+      }
+    }
   </script>
+
+  <script src="js/utils.js" type="text/javascript"></script>
+  <script async src="js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
 
 </body>
 
